@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import { resolveUrl } from 'react-native-url-resolver';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,6 +22,10 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -33,7 +38,17 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Text>
+          {this.state.url}
+        </Text>
       </View>
+    );
+  }
+
+  componentWillMount() {
+    resolveUrl('https://news.google.com').then(
+      (url) => this.setState({ url }),
+      (e) => console.error(e)
     );
   }
 }
